@@ -19,5 +19,4 @@ object DataSourceModule {
     fun provideLoginDataSource(apiService: ApiService): LoginDataSourceImpl {
         return LoginDataSourceImpl(apiService)
     }
-
 }

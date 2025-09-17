@@ -1,5 +1,6 @@
 package com.example.mymultimoduleproject
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,11 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.core.network.NetworkModule
-import com.example.features.login.datasource.LoginDataSource
-import com.example.features.login.datasource.LoginDataSourceImpl
-import com.example.features.login.repository.LoginRepository
-import com.example.features.login.repository.LoginRepositoryImpl
+import com.example.features.login.ui.LoginMainActivity
 import com.example.features.login.viewmodel.LoginViewModel
 import com.example.mymultimoduleproject.ui.theme.MyMultiModuleProjectTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,9 +42,11 @@ class MainActivity : ComponentActivity() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Button(onClick = {
-                        loginViewModel.doLogin { msg  ->
+                        /*loginViewModel.doLogin { msg  ->
                             result = msg[(1..5).random()].title
-                        }
+                        }*/
+                        val intent = Intent(this@MainActivity, LoginMainActivity::class.java)
+                        this@MainActivity.startActivity(intent)
                     }) {
                         Text(result)
                     }

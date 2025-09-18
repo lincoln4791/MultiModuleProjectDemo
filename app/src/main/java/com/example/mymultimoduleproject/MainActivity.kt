@@ -2,9 +2,11 @@ package com.example.mymultimoduleproject
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +30,15 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
     @Inject lateinit var loginViewModel: LoginViewModel;
 
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val data = result.data?.getStringExtra("login_result")
+            Toast.makeText(this, "Got back: $data", Toast.LENGTH_LONG).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -46,28 +57,13 @@ class MainActivity : ComponentActivity() {
                             result = msg[(1..5).random()].title
                         }*/
                         val intent = Intent(this@MainActivity, LoginMainActivity::class.java)
-                        this@MainActivity.startActivity(intent)
+                        //this@MainActivity.startActivity(intent)
+                        launcher.launch(intent)
                     }) {
                         Text(result)
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyMultiModuleProjectTheme {
-        Greeting("Android")
     }
 }

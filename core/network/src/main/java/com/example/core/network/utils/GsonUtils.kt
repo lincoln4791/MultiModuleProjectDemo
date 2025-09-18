@@ -13,4 +13,11 @@ object GsonUtils {
         return gson.fromJson(json, type)
     }
 
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> convertToObject(any: Any, clazz: Class<T>): T {
+        val json = gson.toJson(any)  // turn Any into JSON string
+        return gson.fromJson(json, clazz)
+    }
+
 }

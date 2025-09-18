@@ -43,7 +43,9 @@ android {
 
 dependencies {
     implementation(project(":core:network"))
+    implementation(project(":core:db"))
     implementation(project(":features:login"))
+    implementation(project(":features:registration"))
 
 
     implementation(libs.androidx.core.ktx)

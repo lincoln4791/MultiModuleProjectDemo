@@ -1,6 +1,6 @@
 package com.example.mymultimoduleproject.di
 
-import com.example.features.login.repository.LoginRepository
+import com.example.core.db.UserRepository
 import com.example.features.login.repository.LoginRepositoryImpl
 import com.example.features.login.viewmodel.LoginViewModel
 import dagger.Module
@@ -13,7 +13,7 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 object ViewModelModule {
 
     @Provides
-    fun provideLoginViewModel(loginRepository: LoginRepositoryImpl): LoginViewModel {
-        return LoginViewModel(loginRepository)
+    fun provideLoginViewModel(loginRepository: LoginRepositoryImpl,userRepo : UserRepository): LoginViewModel {
+        return LoginViewModel(loginRepository,userRepo)
     }
 }

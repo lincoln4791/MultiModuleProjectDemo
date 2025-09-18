@@ -39,6 +39,7 @@ android {
 dependencies {
 
     implementation(project(":core:network"))
+    implementation(project(":core:db"))
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)

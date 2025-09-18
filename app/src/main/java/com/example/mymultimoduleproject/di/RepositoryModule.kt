@@ -1,9 +1,8 @@
 package com.example.mymultimoduleproject.di
-import com.example.features.login.datasource.LoginDataSource
+import com.example.core.db.UserRepository
+import com.example.core.db.AppDatabase
 import com.example.features.login.datasource.LoginDataSourceImpl
-import com.example.features.login.repository.LoginRepository
 import com.example.features.login.repository.LoginRepositoryImpl
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,5 +17,11 @@ import javax.inject.Singleton
     @Singleton
     fun provideLoginRepository(loginDataSource: LoginDataSourceImpl): LoginRepositoryImpl {
         return LoginRepositoryImpl(loginDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(appDatabase : AppDatabase) : UserRepository {
+        return UserRepository(appDatabase)
     }
 }

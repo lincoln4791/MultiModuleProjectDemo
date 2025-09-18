@@ -1,7 +1,8 @@
 package com.example.features.login.ui
 
+import com.example.core.db.UserRepository
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -24,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.core.db.DatabaseProvider
 import com.example.core.network.NetworkModule
 import com.example.features.login.datasource.LoginDataSourceImpl
 import com.example.features.login.repository.LoginRepositoryImpl
@@ -32,18 +34,25 @@ import com.example.features.login.viewmodel.LoginViewModel
 class LoginMainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val api = NetworkModule.provideApi()
+        val api = NetworkModule.provideAuthApi()
         val dataSource = LoginDataSourceImpl(api)
         val repo = LoginRepositoryImpl(dataSource)
-        val viewmodel = LoginViewModel(repo)
+        val userRepo = UserRepository(DatabaseProvider.getDatabase(this@LoginMainActivity));
+        val viewmodel = LoginViewModel(repo,userRepo)
         enableEdgeToEdge()
         setContent {
             MaterialTheme {
-                LoginScreen(viewmodel) { username, password ->
-                    // TODO: call your ViewModel / Repository
-                    //Toast.makeText(this, "Login: $username / $password", Toast.LENGTH_SHORT).show()
-
-                }
+                LoginScreen(viewmodel, onLoginClick = { username, password ->
+                }, onNavigateClick = {
+                    val intent = Intent(this@LoginMainActivity, Class.forName("com.example.features.registration.RegistrationMainActivity"))
+                    startActivity(intent)
+                }, onNavigateBackWithResultClick = {
+                    val resultIntent = Intent().apply {
+                        putExtra("login_result", "LoggedInUser123")
+                    }
+                    setResult(RESULT_OK, resultIntent)
+                    finish()
+                })
             }
         }
     }
@@ -51,12 +60,15 @@ class LoginMainActivity : ComponentActivity() {
 
 @Composable
 fun LoginScreen(
-    viewmodel : LoginViewModel,
-    onLoginClick: (String, String) -> Unit
+    viewmodel: LoginViewModel,
+    onLoginClick: (String, String) -> Unit,
+    onNavigateClick: () -> Unit,
+    onNavigateBackWithResultClick: () -> Unit
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var result by remember { mutableStateOf("Login") }
+    var result by remember { mutableStateOf("Login") } // <-- keep this
+
 
     Box(
         modifier = Modifier
@@ -92,15 +104,40 @@ fun LoginScreen(
 
             Button(
                 onClick = {
-                    viewmodel.doLogin {res->
-                        result = res[(1..5).random()].title
+                    viewmodel.doLogin("emilys","emilyspass") { res ->
+                        result = res.username?:""
                     }
-                    //onLoginClick(username, password)
-
-                          },
+                },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Login")
+            }
+
+            Button(
+                onClick = {
+                    onNavigateClick();
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Navigate to Registration")
+            }
+
+            Button(
+                onClick = {
+                    onNavigateBackWithResultClick();
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Navigate Back With Result")
+            }
+
+            Button(
+                onClick = {
+                    viewmodel.insertTestDataInRoom()
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("insert User")
             }
         }
     }

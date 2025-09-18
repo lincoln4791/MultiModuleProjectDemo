@@ -1,10 +1,16 @@
 package com.example.mymultimoduleproject.di
 
-import com.example.core.network.ApiService
+import android.app.Application
+import android.content.Context
+import com.example.core.db.AppDatabase
+import com.example.core.db.DatabaseProvider
+import com.example.core.db.UserDao
+import com.example.core.network.AuthApiService
 import com.example.core.network.NetworkModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -14,8 +20,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideApiService(): ApiService {
+    fun provideApiService(): AuthApiService {
         // Call your existing NetworkModule function
-        return NetworkModule.provideApi()
+        return NetworkModule.provideAuthApi()
     }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
+        return DatabaseProvider.getDatabase(context)
+    }
+
+    @Provides
+    fun provideUserDao(db: AppDatabase): UserDao = db.userDao()
 }

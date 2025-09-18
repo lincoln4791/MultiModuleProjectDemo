@@ -22,4 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "MyMultiModuleProject"
 include(":app")
 include(":core:network")
+include(":core:db")
 include(":features:login")
+include(":features:registration")
+

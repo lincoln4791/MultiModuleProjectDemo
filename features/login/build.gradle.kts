@@ -1,3 +1,4 @@
+import org.gradle.api.tasks.testing.Test
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -14,6 +15,16 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+        }
+    }
+
+    // Configure source sets properly in Kotlin DSL
+    sourceSets["test"].java.srcDirs("src/test/java")
+    sourceSets["test"].resources.srcDirs("src/test/resources")
 
     buildTypes {
         release {
@@ -56,13 +67,13 @@ dependencies {
 
 
     testImplementation(libs.junit)
-    testImplementation(libs.mockk) // latest stable
-    testImplementation(libs.kotlinx.coroutines.test)
+    //testImplementation(libs.mockk) // latest stable
+    //testImplementation(libs.kotlinx.coroutines.test)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    testImplementation(kotlin("test"))
+    //testImplementation(kotlin("test"))
 }

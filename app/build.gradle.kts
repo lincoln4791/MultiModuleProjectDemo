@@ -29,6 +29,16 @@ android {
             )
         }
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+        }
+    }
+
+/*    sourceSets["test"].java.srcDirs("src/test/java")
+    sourceSets["test"].resources.srcDirs("src/test/resources")*/
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -59,6 +69,8 @@ dependencies {
 
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockk) // latest stable
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

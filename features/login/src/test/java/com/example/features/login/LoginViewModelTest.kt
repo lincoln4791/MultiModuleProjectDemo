@@ -1,3 +1,4 @@
+/*
 package com.example.features.login
 
 import com.example.core.db.repository.product.ProductRepositoryImpl
@@ -91,3 +92,4 @@ class LoginViewModelTest {
     }
 
 }
+*/

@@ -1,6 +1,6 @@
 package com.example.features.login.ui
 
-import com.example.core.db.UserRepository
+import com.example.core.db.repository.user.UserRepositoryImpl
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.core.db.DatabaseProvider
+import com.example.core.db.repository.product.ProductRepositoryImpl
 import com.example.core.network.NetworkModule
 import com.example.features.login.datasource.LoginDataSourceImpl
 import com.example.features.login.repository.LoginRepositoryImpl
@@ -37,8 +38,9 @@ class LoginMainActivity : ComponentActivity() {
         val api = NetworkModule.provideAuthApi()
         val dataSource = LoginDataSourceImpl(api)
         val repo = LoginRepositoryImpl(dataSource)
-        val userRepo = UserRepository(DatabaseProvider.getDatabase(this@LoginMainActivity));
-        val viewmodel = LoginViewModel(repo,userRepo)
+        val userRepo = UserRepositoryImpl(DatabaseProvider.getDatabase(this@LoginMainActivity))
+        val productRepo = ProductRepositoryImpl(DatabaseProvider.getDatabase(this@LoginMainActivity))
+        val viewmodel = LoginViewModel(repo,userRepo,productRepo)
         enableEdgeToEdge()
         setContent {
             MaterialTheme {
@@ -133,7 +135,8 @@ fun LoginScreen(
 
             Button(
                 onClick = {
-                    viewmodel.insertTestDataInRoom()
+                    //viewmodel.insertTestDataInRoom()
+                    viewmodel.insertProductDataInRoom()
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {

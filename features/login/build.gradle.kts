@@ -40,6 +40,7 @@ dependencies {
 
     implementation(project(":core:network"))
     implementation(project(":core:db"))
+
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
@@ -51,10 +52,17 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.material3)
+
+
+
     testImplementation(libs.junit)
+    testImplementation(libs.mockk) // latest stable
+    testImplementation(libs.kotlinx.coroutines.test)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    testImplementation(kotlin("test"))
 }

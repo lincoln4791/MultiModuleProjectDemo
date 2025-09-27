@@ -1,8 +1,7 @@
 package com.example.features.login.repository
 
 import com.example.core.network.LoginRequest
-import com.example.core.network.Post
-import com.example.myunittest.login.LoginResponse
+import com.example.features.login.model.LoginResponse
 
 interface LoginRepository {
 

@@ -2,9 +2,8 @@ package com.example.features.login.datasource
 
 import com.example.core.network.AuthApiService
 import com.example.core.network.LoginRequest
-import com.example.core.network.Post
 import com.example.core.network.utils.GsonUtils
-import com.example.myunittest.login.LoginResponse
+import com.example.features.login.model.LoginResponse
 
 class LoginDataSourceImpl (private val api: AuthApiService) : LoginDataSource {
 

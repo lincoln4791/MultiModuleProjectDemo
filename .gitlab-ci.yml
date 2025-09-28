@@ -1,0 +1,31 @@
+stages:
+  - build
+  - test
+
+variables:
+  ANDROID_COMPILE_SDK: "34"
+  ANDROID_BUILD_TOOLS: "34.0.0"
+  ANDROID_SDK_ROOT: "/sdk"
+
+before_script:
+  - export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
+  - export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+  - sdkmanager --install "platforms;android-${ANDROID_COMPILE_SDK}" "build-tools;${ANDROID_BUILD_TOOLS}"
+
+build:
+  stage: build
+  image: openjdk:17
+  script:
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+      - app/build/outputs/
+
+test:
+  stage: test
+  image: openjdk:17
+  script:
+    - ./gradlew testDebugUnitTest
+  artifacts:
+    reports:
+      junit: app/build/test-results/testDebugUnitTest/*.xml

@@ -67,13 +67,13 @@ dependencies {
 
 
     testImplementation(libs.junit)
-    //testImplementation(libs.mockk) // latest stable
-    //testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk) // latest stable
+    testImplementation(libs.kotlinx.coroutines.test)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    //testImplementation(kotlin("test"))
+    testImplementation(kotlin("test"))
 }
